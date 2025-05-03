@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB ENTERTAINMENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            overflow-x: hidden;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.8), transparent);
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.5);
+        }
+        .header .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            color: #ffd700;
+            text-shadow: 0 0 15px #ffd700, 0 0 25px #ff00ff, 0 0 35px #00ffcc;
+            letter-spacing: 5px;
+            animation: glow 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, #ff00ff, #00ffcc, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ff00ff, 0 0 30px #00ffcc; }
+            to { text-shadow: 0 0 20px #ffd700, 0 0 30px #ff00ff, 0 0 40px #00ffcc; }
+        }
+        .header .icons a {
+            color: #00ffcc;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .header .icons a:hover {
+            color: #ff00ff;
+            transform: scale(1.1);
+        }
+        .slider {
+            margin-top: 80px;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 4px solid #ff00ff;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.5);
+        }
+        .slider .slides {
+            display: flex;
+            width: 700%;
+            animation: slide 21s infinite;
+        }
+        .slider .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            12% { transform: translateX(0); }
+            16% { transform: translateX(-14.28%); }
+            28% { transform: translateX(-14.28%); }
+            32% { transform: translateX(-28.56%); }
+            44% { transform: translateX(-28.56%); }
+            48% { transform: translateX(-42.84%); }
+            60% { transform: translateX(-42.84%); }
+            64% { transform: translateX(-57.12%); }
+            76% { transform: translateX(-57.12%); }
+            80% { transform: translateX(-71.4%); }
+            92% { transform: translateX(-71.4%); }
+            100% { transform: translateX(-85.68%); }
+        }
+        .nav {
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+        }
+        .nav a:hover {
+            background: #1a1a2e;
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+        .content-section {
+            padding: 20px;
+        }
+        .content-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .content-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .content-item {
+            position: relative;
+            min-width: 120px;
+            height: 160px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+        .content-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .content-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+        }
+        .content-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+        .content-item:hover .overlay {
+            opacity: 1;
+        }
+        .content-item .overlay p {
+            font-size: 12px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .video-player-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+        .video-player-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+        }
+        .video-player-container video {
+            width: 100%;
+        }
+        .video-player-container button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container {
+            background: #1a1a2e;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            text-align: center;
+            width: 350px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 1000;
+        }
+        .login-container h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #333;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        .login-container button {
+            background: linear-gradient(to right, #ff00ff, #00ffcc);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .error-message {
+            color: #ff5555;
+            margin-top: 10px;
+            display: none;
+        }
+        .admin-panel {
+            font-family: 'Roboto', sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            min-height: 100vh;
+            display: none;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .netflix-btn {
+            background-color: #e50914;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .netflix-btn:hover {
+            background-color: #f40612;
+        }
+        .netflix-card {
+            background-color: #1f1f1f;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .sidebar-item {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: #292929;
+        }
+        .upload-form input, .upload-form select, .upload-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+        .sb-entertainment {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #e50914, #ff5555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .netflix-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(20,20,20,1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- User Panel -->
+    <div id="user-panel">
+        <div class="header">
+            <div class="logo">WELCOME TO SB ENTERTAINMENT</div>
+            <div class="icons">
+                <a href="#" onclick="showNotification()">Notification</a>
+                <a href="#" onclick="showDownload()">Download</a>
+                <a href="#" onclick="showAdminLogin()">Admin</a>
+            </div>
+        </div>
+        <div class="slider">
+            <div class="slides">
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg" alt="Oppenheimer"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" alt="Barbie"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/5a4JdoFwll5hfKqjCpIHOzibbsS.jpg" alt="Mission: Impossible"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/1g0dhYtq4irTY1GPXviftl1DXLY.jpg" alt="Spider-Man: Across the Spider-Verse"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg" alt="The Super Mario Bros. Movie"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/628Dep6AxEtDxjZoGP78TsOxYbK.jpg" alt="Guardians of the Galaxy Vol. 3"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyD.jpg" alt="Samay"></div>
+            </div>
+        </div>
+        <div class="nav">
+            <a href="#" onclick="selectCategory('All Movies')">All Movies</a>
+            <a href="#" onclick="selectCategory('Recent Release')">Recent Release</a>
+            <a href="#" onclick="selectCategory('All Series')">All Series</a>
+            <a href="#" onclick="selectCategory('TV Show')">TV Show</a>
+            <a href="#" onclick="selectCategory('Animation')">Animation</a>
+            <a href="#" onclick="selectCategory('K-Drama')">K-Drama</a>
+            <a href="#" onclick="selectCategory('18+ Movie')">18+ Movie</a>
+            <a href="#" onclick="selectCategory('Old is Gold Movie')">Old is Gold Movie</a>
+            <a href="#" onclick="showSettings()">Settings</a>
+        </div>
+        <div class="content-section" id="movies-section">
+            <h3>Movies</h3>
+            <div class="content-row" id="movies-carousel">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+        <div class="video-player-modal" id="video-player-modal">
+            <div class="video-player-container">
+                <video id="video-player" controls>
+                    <source id="video-source" src="" type="video/mp4">
+                </video>
+                <button onclick="closePlayer()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div class="login-container" id="admin-login">
+        <h2>Admin Login</h2>
+        <form id="admin-login-form">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <button type="submit">Login</button>
+            <div id="login-error" class="error-message"></div>
+        </form>
+        <div class="back-button" onclick="showUserPanel()">Back</div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="admin-panel">
+        <div class="slide-container netflix-gradient">
+            <h1 class="sb-entertainment">SB ENTERTAINMENT Admin</h1>
+            <div class="sidebar">
+                <div class="sidebar-item" onclick="showSection('dashboard')">Dashboard</div>
+                <div class="sidebar-item" onclick="showSection('content')">Content Management</div>
+                <div class="sidebar-item" onclick="showSection('users')">User Management</div>
+                <div class="sidebar-item" onclick="showSection('monetization')">Monetization</div>
+                <div class="sidebar-item" onclick="showSection('analytics')">Analytics</div>
+                <div class="sidebar-item" onclick="showSection('notifications')">Notifications</div>
+                <div class="sidebar-item" onclick="showSection('settings')">Settings</div>
+                <div class="sidebar-item" onclick="logout()">Logout</div>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard-section">
+                <h2>Dashboard</h2>
+                <div class="chart-container">
+                    <canvas id="userActivityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Content Management -->
+            <div id="content-section" style="display: none;">
+                <h2>Content Management</h2>
+                <div class="upload-form">
+                    <h3>Upload Content</h3>
+                    <form id="content-upload-form">
+                        <label for="content-title">Title</label>
+                        <input type="text" id="content-title" name="title" required>
+                        <label for="content-category">Category</label>
+                        <select id="content-category" name="category" required>
+                            <option value="Bollywood">Bollywood</option>
+                            <option value="Hollywood">Hollywood</option>
+                            <option value="South">South</option>
+                            <option value="Punjabi">Punjabi</option>
+                            <option value="Series">Series</option>
+                        </select>
+                        <label for="content-link">Terabox/Telegram Link</label>
+                        <input type="text" id="content-link" name="streamLink" placeholder="Enter Terabox or Telegram link">
+                        <label for="content-file">Local File URL (Mock)</label>
+                        <input type="text" id="content-file" name="file" placeholder="Enter file URL (mock)">
+                        <label for="content-thumbnail">Thumbnail URL</label>
+                        <input type="text" id="content-thumbnail" name="thumbnail" placeholder="Enter thumbnail URL" required>
+                        <button type="submit" class="netflix-btn">Upload</button>
+                    </form>
+                    <div id="upload-error" class="error-message"></div>
+                </div>
+                <div class="content-list" id="content-list">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- User Management -->
+            <div id="users-section" style="display: none;">
+                <h2>User Management</h2>
+                <table id="user-table">
+                    <tr><th>Name</th><th>Email</th><th>Subscription</th><th>Actions</th></tr>
+                </table>
+            </div>
+
+            <!-- Monetization -->
+            <div id="monetization-section" style="display: none;">
+                <h2>Monetization</h2>
+                <form id="plan-form">
+                    <label for="plan-name">Plan Name</label>
+                    <input type="text" id="plan-name" name="planName" required>
+                    <label for="plan-price">Price</label>
+                    <input type="number" id="plan-price" name="price" required>
+                    <button type="submit" class="netflix-btn">Add Plan</button>
+                </form>
+                <div id="plan-list"></div>
+            </div>
+
+            <!-- Analytics -->
+            <div id="analytics-section" style="display: none;">
+                <h2>Analytics</h2>
+                <div class="chart-container">
+                    <canvas id="contentPerformanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notifications-section" style="display: none;">
+                <h2>Notifications</h2>
+                <form id="notification-form">
+                    <label for="notification-message">Message</label>
+                    <textarea id="notification-message" name="message" required></textarea>
+                    <button type="submit" class="netflix-btn">Send Notification</button>
+                </form>
+            </div>
+
+            <!-- Settings -->
+            <div id="settings-section" style="display: none;">
+                <h2>Settings</h2>
+                <div class="settings-option">App Language</div>
+                <div class="settings-option">Server Settings</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Backend Data with Updated Content
+        const mockData = {
+            contents: [
+                { _id: "1", title: "Test Movie", category: "Bollywood", streamLink: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", thumbnail: "https://via.placeholder.com/150" },
+                { _id: "2", title: "Sikandar", category: "Bollywood", streamLink: "", thumbnail: "https://via.placeholder.com/150" }
+            ],
+            users: [
+                { _id: "1", name: "User1", email: "user1@example.com", subscription: "Free" }
+            ],
+            plans: [],
+            notifications: []
+        };
+
+        // Initialize Local Storage
+        function initializeLocalStorage() {
+            try {
+                if (!localStorage.getItem('contents')) {
+                    localStorage.setItem('contents', JSON.stringify(mockData.contents));
+                }
+                if (!localStorage.getItem('users')) {
+                    localStorage.setItem('users', JSON.stringify(mockData.users));
+                }
+                if (!localStorage.getItem('plans')) {
+                    localStorage.setItem('plans', JSON.stringify(mockData.plans));
+                }
+                if (!localStorage.getItem('notifications')) {
+                    localStorage.setItem('notifications', JSON.stringify(mockData.notifications));
+                }
+            } catch (e) {
+                console.error("LocalStorage initialization failed:", e);
